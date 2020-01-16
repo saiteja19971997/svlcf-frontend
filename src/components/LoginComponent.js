@@ -1,5 +1,6 @@
 import React, {Component} from 'react'; 
 import { withRouter } from 'react-router-dom';
+import { UserLogin } from '../routes/UserLogin.js'
 import '../css/App.css';
 import axios from 'axios';
 class LoginComponent extends Component { 
@@ -18,17 +19,15 @@ class LoginComponent extends Component {
     }
 
     handleSubmit = (e) =>{
-      e.preventDefault()
-      axios.post('http://localhost:3002/user/login', this.state)
-      .then(response => {
-        console.log(response);
-        this.props.history.push('/home');
-      })
-      .catch(error => {
-         console.log(error);
-      });
-    
-    }
+      e.preventDefault();
+     const obj = this.state;
+      UserLogin(obj, function (response){
+        if(response!=null){
+          console.log(response);
+          this.props.history.push('/home');
+        }
+      }.bind(this));
+     }
     render() 
     {
       const {email, password } = this.state; 
