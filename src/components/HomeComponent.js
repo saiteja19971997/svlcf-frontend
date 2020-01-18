@@ -1,7 +1,7 @@
 import React, {Component} from 'react'; 
 import '../css/App.css';
-import axios from 'axios';
-import MemberComponent from '../components/MemberComponent.js'
+import HeaderComponent from '../components/HeaderComponent.js'
+
 class HomeComponent extends Component {
     constructor(props){
         super(props)
@@ -9,10 +9,11 @@ class HomeComponent extends Component {
         
         }
       }
+      
       render() 
       {
           return(<div>
-              <MemberComponent />
+              <HeaderComponent />
           </div>)
       }
 }

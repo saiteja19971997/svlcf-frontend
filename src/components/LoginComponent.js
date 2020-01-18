@@ -1,10 +1,10 @@
-import React, {Component} from 'react'; 
+import React, {Component, Fragment} from 'react'; 
 import { withRouter } from 'react-router-dom';
 import { UserLogin } from '../routes/UserLogin.js'
 import '../css/App.css';
-import axios from 'axios';
+import HeaderComponent from './HeaderComponent.js';
+
 class LoginComponent extends Component { 
- 
     constructor(props){
       super(props)
       this.state = {
@@ -15,7 +15,7 @@ class LoginComponent extends Component {
     handleChange = (e) => {
       this.setState({
         [e.target.name] : e.target.value
-      })
+      });
     }
 
     handleSubmit = (e) =>{
@@ -24,7 +24,7 @@ class LoginComponent extends Component {
       UserLogin(obj, function (response){
         if(response!=null){
           console.log(response);
-          this.props.history.push('/home');
+          this.props.history.push('/welcome');
         }
       }.bind(this));
      }
@@ -32,6 +32,8 @@ class LoginComponent extends Component {
     {
       const {email, password } = this.state; 
         return (
+          <Fragment>
+            <HeaderComponent />
           <div className="wrapper">
     <div className="form-wrapper">
       <h1>Login in Account</h1>
@@ -65,6 +67,7 @@ class LoginComponent extends Component {
       </form>
     </div>
     </div>
+    </Fragment>
         ); 
   } 
 }   
