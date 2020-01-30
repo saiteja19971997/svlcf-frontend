@@ -5,6 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 
+
 class HeaderComponent extends Component{
     constructor({select}){
         super({select})
@@ -13,7 +14,10 @@ class HeaderComponent extends Component{
             selected : select
         }
       }
-       handleChange = (event, newValue ) =>{
+      
+    
+    
+       handleChange = (event, newValue) =>{
         this.setState({
              selected : newValue
 
@@ -24,7 +28,13 @@ class HeaderComponent extends Component{
         if (this.state.conentsOfHeader[newValue]==="Groups"){
             this.props.history.push('/groups');
         }
+        if(this.state.conentsOfHeader[newValue]==="About")
+        {
+            this.props.history.push('/about')
+        }
+       
     }
+
     render(){
         const contents = this.state.conentsOfHeader;
         const select = this.state.selected;

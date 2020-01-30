@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-export const MembersList = (callback) => {
-    axios.get('http://localhost:3002/members/A20')
+export const MembersList = (id,callback) => {
+  console.log(id);
+    axios.get('http://localhost:3002/members/'+id)
       .then(response => {
           console.log(response);
-          //this.setState({customers: response.data.customers});
           callback(response.data.customers);
       })
       .catch(error => {

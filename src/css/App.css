@@ -114,3 +114,14 @@ input.error {
   color: #999;
   font-weight: lighter;
 }
+
+.searchbar {
+    background-color: lightblue;
+    padding-top: 100px;
+    padding-right: 100px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+}
+.card {
+  max-width: 500;
+}

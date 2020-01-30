@@ -1,18 +1,19 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+import HeaderComponent from'../components/HeaderComponent.js';
 class AboutComponent extends Component {
     constructor(props){
         super(props)
         this.state = {
-            
+            select:0
         }
       }
       
       render() 
       {
-       
-        return (<div>
-              <h1>/Groups</h1>
-            </div>)
+       const select = this.state.select;
+        return (<Fragment>
+          <HeaderComponent select={3}/>
+          </Fragment>)
     }
 }
 export default AboutComponent;
