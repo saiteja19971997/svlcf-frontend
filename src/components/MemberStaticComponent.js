@@ -9,15 +9,21 @@ import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import { withStyles } from '@material-ui/styles';
 import {MembersList} from '../routes/membersList.js';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded';
 import {EditMember} from '../routes/EditMember';
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import MemberDialog from '../components/MemberDialog.js'
 const styles = theme => ({
   root: {
     width: '100%',
@@ -29,6 +35,10 @@ class MemberStaticComponent extends Component {
     constructor(props){
         super(props)
         this.state = {
+          clickedcustomer :{
+
+          },
+          isopen : false,
             contentsOfHeader : ["login","Members","Groups","About"],
             groups:[],
             select: 1,
@@ -36,6 +46,25 @@ class MemberStaticComponent extends Component {
             customers:[]
         }
       }
+      setValueOnCancel=(response)=>{
+        if(response!=null){
+        this.setState({
+          isopen:false,
+          customers:response
+        })
+      }
+      else{
+        this.setState({
+          isopen:false
+        })
+      }
+      }
+       handleClickOpen = (customer) => {
+         console.log("in edit click");
+        this.setState({isopen: true,
+                         clickedcustomer:customer
+        })
+      };
       deleteItem = (customer,event) => {
         EditMember(customer,function(response){
           console.log(response);
@@ -71,6 +100,7 @@ class MemberStaticComponent extends Component {
         const select = this.state.select;
         const customers=this.state.customers;
         const {classes} = this.props;
+        const isopen = this.state.isopen;
         return (<Fragment>
             <HeaderComponent 
               select = {select}/>
@@ -102,34 +132,44 @@ class MemberStaticComponent extends Component {
         </Select>
         
       </ Grid>
-          <div className={classes.root}>
-           <List>
-             {
-               customers.length ?
-               customers.map( customer => 
-               <div>
-                <ListItem key={customer._id}>
-                 <ListItemAvatar>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} size="small" aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">logo</TableCell>
+            <TableCell align="right">Name</TableCell>
+            <TableCell align="right">Group</TableCell>
+            <TableCell align="right">Phone Number</TableCell>
+            <TableCell align="right">actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {customers.map(customer => (
+            <TableRow key={customer._id} hover="true" >
+              <TableCell component="th" scope="row" align="center">
+              <ListItemAvatar align="center">
                        <Avatar>
                          <AccountBoxRoundedIcon />
                       </Avatar>
                 </ListItemAvatar>
-                 <ListItemText primary ={customer.name} /> 
-                 <ListItemText primary ={customer.group} />
-                 <ListItemText primary ={customer.phoneNumber} />
-                 <ListItemAvatar>
-                 <Button variant="contained">Edit</Button>
-                </ListItemAvatar>
-                <ListItemAvatar>
-                <Button variant="contained" onClick={()=>this.deleteItem(customer)}>Delete</Button>
-                </ListItemAvatar> 
-               </ListItem>
-               <Divider />
-               </div>
-               ):<div><h3>please select group</h3></div>
-             } 
-    </List>
-    </div>
+              </TableCell>
+              <TableCell align="right">{customer.name}</TableCell>
+              <TableCell align="right">{customer.group}</TableCell>
+              <TableCell align="right">{customer.phoneNumber}</TableCell>
+              <TableCell align="right"><IconButton aria-label="edit" onClick={()=>this.handleClickOpen(customer)}>
+             <EditIcon />
+               </IconButton> 
+               </TableCell>
+               <TableCell align="left"><IconButton aria-label="delete" onClick={()=>this.deleteItem(customer)}>
+                <DeleteIcon />
+               </IconButton>   
+               </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <MemberDialog open = {isopen} customer={this.state.clickedcustomer} setValueOnCancel={this.setValueOnCancel}/>
             </Fragment>
             )
     }
